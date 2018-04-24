@@ -2,11 +2,8 @@
 
 namespace Zfe\Common;
 
-use Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory;
-use Zend\ServiceManager\Factory\InvokableFactory;
-use Common\Factory\LoggingErrorListenerFactory;
-use Zend\Stratigility\Middleware\ErrorHandler;
-use Doctrine\Common\Cache\Cache;
+use Zend\ConfigAggregator\PhpFileProvider;
+use Zend\ConfigAggregator\ConfigAggregator;
 
 /**
  * The configuration provider for the Common module
@@ -25,28 +22,11 @@ class ConfigProvider
      */
     public function __invoke()
     {
-        return [
-            'dependencies' => $this->getDependencies()
-        ];
-    }
-
-    /**
-     * Returns the container dependencies
-     *
-     * @return array
-     */
-    public function getDependencies()
-    {
-        return [
-            'invokables' => [
-            ],
-            'factories'  => [
-            ],
-            'delegators' => [
-                ErrorHandler::class => [
-                    LoggingErrorListenerFactory::class,
-                ],
-            ],
-        ];
+        /** @var array $config */
+        $aggregator = new ConfigAggregator([
+            new PhpFileProvider(realpath(__DIR__) . '/../config/{,*.}config.php')
+        ]);
+        $config = $aggregator->getMergedConfig();
+        return $config;
     }
 }
