@@ -2,7 +2,7 @@
     "name": "awoyotoyin/zfe-base",
     "type": "library",
     "description": "Base Library for Zend Expressive/Doctrine ORM",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "keywords": [
         "zend",
         "zend expressive",
