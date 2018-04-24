@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-$ composer require awoyotoyin/zfe-base
+$ composer require awoyotoyin/zfe-base:dev-master
 ```
 
 ### Register the module
