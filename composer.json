@@ -2,7 +2,7 @@
     "name": "awoyotoyin/zfe-base",
     "type": "library",
     "description": "Base Library for Zend Expressive/Doctrine ORM",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "keywords": [
         "zend",
         "zend expressive",
@@ -38,6 +38,5 @@
         "psr-4": {
             "Zfe\\CommonTest\\": "test/CommonTest/"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }
