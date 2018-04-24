@@ -12,7 +12,6 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\ORM\QueryBuilder;
 use Zfe\Common\Provider\ProviderInterface;
 use Zfe\Common\Entity\EntityInterface;
-
 abstract class AbstractProvider implements ProviderInterface
 {
     /**
