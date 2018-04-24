@@ -16,7 +16,11 @@
         "sort-packages": true
     },
     "authors": [
-        {"name": "Awoyo Oluwatoyin", "email": "awoyotoyin@gmail.com"}
+        {
+            "name": "Awoyo Oluwatoyin",
+            "email": "awoyotoyin@gmail.com",
+            "role": "Developer"
+        }
     ],
     "require": {
         "php": "^5.6 || ^7.0",
@@ -32,7 +36,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "CommonTest\\": "test/CommonTest/"
+            "Zfe\\CommonTest\\": "test/CommonTest/"
         }
     }
 }
