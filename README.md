@@ -11,9 +11,12 @@ $ composer require awoyotoyin/zfe-base:dev-master
 > ### Zend Expressive
 >
 > ```bash
+> 
+> use Zfe\Common\ConfigProvider as CommonConfigProvider;
+> 
 > $aggregator = new ConfigAggregator([
 >     ...
->     \Zfe\Common\ConfigProvider::class,
+>     CommonConfigProvider::class,
 >     ...
 > ], $cacheConfig['config_cache_path']);
 > ```
@@ -28,7 +31,7 @@ $ composer require awoyotoyin/zfe-base:dev-master
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Common\Entity\AbstractEntity;
+use Zfe\Common\Entity\AbstractEntity;
 
 /**
  * @ORM\Entity
@@ -67,11 +70,11 @@ class Post extends AbstractEntity
 }
 ```
 
-Your Entity class should extend `Common\Entity\AbstractEntity`.
-The `Common\Entity\AbstractEntity` class defines the Id, CreatedAt and UpdatedAt attributes for your entity.
+Your Entity class should extend `Zfe\Common\Entity\AbstractEntity`.
+The `Zfe\Common\Entity\AbstractEntity` class defines the Id, CreatedAt and UpdatedAt attributes for your entity.
 If you are extending from this class, your Entity class must define the lifecycle callbacks as it is required for both the CreatedAt and UpdatedAt attributes.
 
-The `Common\Entity\AbstractEntity` class also exposes a `exchangeArray` method that takes an array as it's only argument and set your entity members from the array members.
+The `Zfe\Common\Entity\AbstractEntity` class also exposes a `exchangeArray` method that takes an array as it's only argument and set your entity members from the array members.
 
 ```
 Example:
@@ -87,11 +90,11 @@ $post->getTitle(); // Some Title
 ### Provider Class
 
 The Provider performs all database related operations hence, this class would mostly contain queries to your Entity.
-All you have to do is define your Entity class and `Common\Provider\AbstractProvider` does all the heavy lifting
+All you have to do is define your Entity class and `Zfe\Common\Provider\AbstractProvider` does all the heavy lifting
 
 Available methods
 ```bash
-public function fetchAll(): \Doctrine\ORM\ueryBuilder;
+public function fetchAll(): \Doctrine\ORM\QueryBuilder;
 
 public function selectAll(array $filters = [], array $orderBy = [], array $groupBy = []): \Doctrine\ORM\QueryBuilder;
 
@@ -125,7 +128,7 @@ public function selectJoin(
 
 namespace App\Provider;
 
-use Common\Provider\AbstractProvider;
+use Zfe\Common\Provider\AbstractProvider;
 
 class PostProvider extends AbstractProvider
 {
@@ -144,7 +147,7 @@ class PostProvider extends AbstractProvider
  */
 namespace App\Service;
 
-use Common\Service\AbstractService;
+use Zfe\Common\Service\AbstractService;
 
 class PostService extends AbstractService
 {
