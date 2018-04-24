@@ -1,6 +1,6 @@
 <?php
 
-namespace Common\Exception;
+namespace Zfe\Common\Exception;
 
 class AppException extends \Exception
 {

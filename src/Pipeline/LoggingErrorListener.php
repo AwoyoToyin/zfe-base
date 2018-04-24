@@ -1,6 +1,6 @@
 <?php
 
-namespace Common\Pipeline;
+namespace Zfe\Common\Pipeline;
 
 use Exception;
 use Psr\Http\Message\ResponseInterface;

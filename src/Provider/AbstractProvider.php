@@ -5,13 +5,13 @@
  *
  * @author: Awoyo Oluwatoyin Stephen alias AwoyoToyin <awoyotoyin@gmail.com>
  */
-namespace Common\Provider;
+namespace Zfe\Common\Provider;
 
-use Common\Entity\EntityInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Common\Provider\ProviderInterface;
 use Doctrine\ORM\QueryBuilder;
+use Zfe\Common\Provider\ProviderInterface;
+use Zfe\Common\Entity\EntityInterface;
 
 abstract class AbstractProvider implements ProviderInterface
 {

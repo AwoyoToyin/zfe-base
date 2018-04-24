@@ -1,6 +1,6 @@
 <?php
 
-namespace Common;
+namespace Zfe\Common;
 
 use Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Zend\ServiceManager\Factory\InvokableFactory;

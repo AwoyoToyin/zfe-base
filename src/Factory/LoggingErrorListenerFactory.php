@@ -1,13 +1,13 @@
 <?php
 
-namespace Common\Factory;
+namespace Zfe\Common\Factory;
 
-use Common\Pipeline\LoggingErrorListener;
 use Psr\Container\ContainerInterface;
 use Zend\Log\Logger;
 use Zend\Log\Writer;
 use Zend\Log\Processor\PsrPlaceholder;
 use Zend\Stratigility\Middleware\ErrorHandler;
+use Zfe\Common\Pipeline\LoggingErrorListener;
 
 class LoggingErrorListenerFactory
 {

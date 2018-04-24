@@ -27,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Common\\": "src/"
+            "Zfe\\Common\\": "src/"
         }
     },
     "autoload-dev": {

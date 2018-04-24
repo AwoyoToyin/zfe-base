@@ -5,11 +5,11 @@
  *
  * @author: Awoyo Oluwatoyin Stephen alias AwoyoToyin <awoyotoyin@gmail.com>
  */
-namespace Common\Service;
+namespace Zfe\Common\Service;
 
-use Common\Exception\AppException;
-use Common\Provider\AbstractProvider;
-use Common\Entity\EntityInterface;
+use Zfe\Common\Exception\AppException;
+use Zfe\Common\Provider\AbstractProvider;
+use Zfe\Common\Entity\EntityInterface;
 
 abstract class AbstractService implements ServiceInterface
 {

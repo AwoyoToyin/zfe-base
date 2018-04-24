@@ -13,7 +13,7 @@ $ composer require awoyotoyin/zfe-base:dev-master
 > ```bash
 > $aggregator = new ConfigAggregator([
 >     ...
->     \Common\ConfigProvider::class,
+>     \Zfe\Common\ConfigProvider::class,
 >     ...
 > ], $cacheConfig['config_cache_path']);
 > ```

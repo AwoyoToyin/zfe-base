@@ -1,6 +1,6 @@
 <?php
 
-namespace Common\Entity;
+namespace Zfe\Common\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

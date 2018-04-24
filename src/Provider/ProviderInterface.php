@@ -5,9 +5,9 @@
  *
  * @author: Awoyo Oluwatoyin Stephen alias AwoyoToyin <awoyotoyin@gmail.com>
  */
-namespace Common\Provider;
+namespace Zfe\Common\Provider;
 
-use Common\Entity\EntityInterface;
+use Zfe\Common\Entity\EntityInterface;
 
 interface ProviderInterface
 {

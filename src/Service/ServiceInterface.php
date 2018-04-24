@@ -5,7 +5,7 @@
  *
  * @author: Awoyo Oluwatoyin Stephen alias AwoyoToyin <awoyotoyin@gmail.com>
  */
-namespace Common\Service;
+namespace Zfe\Common\Service;
 
 use Common\Provider\ProviderInterface;
 
