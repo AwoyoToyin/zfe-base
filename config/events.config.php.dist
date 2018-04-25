@@ -1,0 +1,13 @@
+<?php
+
+return [
+    'listeners' => [
+        'events' => [
+            // the event we are listening to
+            'blog_post_save_before' => [
+                'class' => \App\Observer\PostObserver::class, // points to the observer class
+                'method' => 'onPostBeforeSaveHandled' // points to the method handling the event
+            ]
+        ],
+    ]
+];

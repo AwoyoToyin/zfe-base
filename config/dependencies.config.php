@@ -3,6 +3,7 @@
 namespace Zfe\Common;
 
 use Zfe\Common\Factory\LoggingErrorListenerFactory;
+use Zfe\Common\Factory\AbstractProviderFactory;
 use Zend\Stratigility\Middleware\ErrorHandler;
 
 return [
@@ -16,5 +17,8 @@ return [
                 LoggingErrorListenerFactory::class,
             ],
         ],
+        'abstract_factories' => [
+            AbstractProviderFactory::class
+        ]
     ]
 ];
