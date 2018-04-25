@@ -123,7 +123,7 @@ public function selectJoin(
 /**
  * Description of PostProvider
  *
- * @author: Awoyo Oluwatoyin Stephen alias AwoyoToyin <awoyotoyin@gmail.com>
+ * @author: Awoyo Oluwatoyin Stephen alias awoyotoyin <awoyotoyin@gmail.com>
  */
 
 namespace App\Provider;
@@ -133,6 +133,8 @@ use Zfe\Common\Provider\AbstractProvider;
 class PostProvider extends AbstractProvider
 {
     protected $entityClass = 'App\Entity\Post';
+
+    protected $entity_event_prefix = 'blog_post';
 }
 ```
 ### Service Class
@@ -143,7 +145,7 @@ class PostProvider extends AbstractProvider
 /**
  * Description of PostService
  *
- * @author: Awoyo Oluwatoyin Stephen alias AwoyoToyin <awoyotoyin@gmail.com>
+ * @author: Awoyo Oluwatoyin Stephen alias awoyotoyin <awoyotoyin@gmail.com>
  */
 namespace App\Service;
 
@@ -153,4 +155,111 @@ class PostService extends AbstractService
 {
 
 }
+```
+
+### System Events
+
+This library ships with the `Zend\EventManager\EventManager`.
+By default, there are 4 built in events that are triggered before and after the following operations:
+
+```bash
+> Saving an Entity
+> entity_save_before event fired before an entity is saved
+> entity_save_after event fired after an entity is saved
+>
+> Deleting an Entity
+> entity_delete_before event fired before an entity is deleted
+> entity_delete_after event fired after an entity is deleted
+```
+
+To fire off entity specific event, your provider class must set the value of the `$entity_event_prefix` property. See `PostProvider` definition above.
+In which case, the following events are now available to us as well:
+
+```bash
+> Saving an Entity
+> blog_post_save_before event fired before an entity is saved
+> blog_post_save_after event fired after an entity is saved
+>
+> Deleting an Entity
+> blog_post_delete_before event fired before an entity is deleted
+> blog_post_delete_after event fired after an entity is deleted
+```
+
+To register your own custom event listener, create a `.config.php` file with contents similar to own below:
+
+```bash
+<?php
+
+return [
+    'listeners' => [
+        'events' => [
+            // the event we are listening to
+            'blog_post_save_before' => [
+                'class' => \App\Observer\PostObserver::class, // points to the observer class
+                'method' => 'onPostBeforeSaveHandled' // points to the method handling the event
+            ]
+        ],
+    ]
+];
+
+```
+There is a sample `events.config.php.dist` file included in the `config` folder.
+
+The `App\Observer\PostObserver` defined above could contain the below code. Replace with your logic
+
+```bash
+<?php
+/**
+ * Description of PostObserver
+ *
+ * @author: Awoyo Oluwatoyin Stephen alias awoyotoyin <awoyotoyin@gmail.com>
+ */
+namespace App\Observer;
+
+use Interop\Container\ContainerInterface;
+use Zend\EventManager\Event;
+use Zend\Log\Logger;
+use Zend\Log\Processor\PsrPlaceholder;
+use Zend\Log\Writer;
+
+class PostObserver
+{
+    public function __invoke(ContainerInterface $container)
+    {
+        // Grab some dependencies from the $container
+        // And return self
+        return new self();
+    }
+
+    public function onPostBeforeSaveHandled(Event $event)
+    {
+        // Do something with the $event here
+        $name = $event->getName();
+        $target = get_class($event->getTarget());
+        $entity = $event->getParam('entity');
+
+        /** Modify the Entity */
+        if ($entity instanceof \Zfe\Common\Entity\EntityInterface) {
+            $entity->setTitle('Title Changed');
+        } elseif (is_array($entity)) {
+            $entity['title'] = 'Title Changed';
+        }
+
+        /** Push changes back to the trigger */
+        $event->setParam('entity', $entity);
+
+        $logger = new Logger;
+        $logger->addProcessor(new PsrPlaceholder);
+
+        $writer = new Writer\Stream('data/log/events.log');
+        $logger->addWriter($writer);
+
+        $logger->notice('{event} was called on {target} with entity {entity}', [
+            'event' => $event,
+            'target' => $target,
+            'entity' => json_encode($entity)
+        ]);
+    }
+}
+
 ```
