@@ -25,6 +25,7 @@
     "require": {
         "php": "^5.6 || ^7.0",
         "dasprid/container-interop-doctrine": "^1.1",
+        "zendframework/zend-eventmanager": "^3.2",
         "zendframework/zend-log": "^2.9"
     },
     "require-dev": {
