@@ -3,7 +3,7 @@
 /**
  * Description of AbstractService
  *
- * @author: Awoyo Oluwatoyin Stephen alias AwoyoToyin <awoyotoyin@gmail.com>
+ * @author: Awoyo Oluwatoyin Stephen alias awoyotoyin <awoyotoyin@gmail.com>
  */
 namespace Zfe\Common\Service;
 
@@ -66,14 +66,15 @@ abstract class AbstractService implements ServiceInterface
     public function save(array $data)
     {
         if (!isset($data['id']) || !$data['id']) {
-            return $this->provider->createEntity();
+            $entity = $this->provider->createEntity();
+        } else {
+            $entity = $this->read((int) $data['id']);
+            if (!$entity) {
+                throw new AppException('No record found', 404);
+            }
         }
 
-        $entity = $this->read((int) $data['id']);
-        if (!$entity) {
-            throw new AppException('No record found', 404);
-        }
-        return $entity;
+        return $this->provider->save($entity);
     }
 
     /**
