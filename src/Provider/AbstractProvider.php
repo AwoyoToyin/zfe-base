@@ -3,10 +3,12 @@
 /**
  * Description of AbstractProvider
  *
- * @author: Awoyo Oluwatoyin Stephen alias AwoyoToyin <awoyotoyin@gmail.com>
+ * @author: Awoyo Oluwatoyin Stephen alias awoyotoyin <awoyotoyin@gmail.com>
  */
 namespace Zfe\Common\Provider;
 
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\EventManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\ORM\QueryBuilder;
@@ -35,13 +37,36 @@ abstract class AbstractProvider implements ProviderInterface
     protected $entityAlias = 'entity';
 
     /**
+     * Entity Event prefix
+     *
+     * @var string
+     */
+    protected $entity_event_prefix = null;
+
+    /**
+     * Base Event prefix
+     *
+     * @var string
+     */
+    private $event_prefix = 'entity';
+
+    /**
+     * List of registered
+     *
+     * @var array
+     */
+    private $events;
+
+    /**
      * Injects the  entity manager into the provider
      *
      * @param EntityManagerInterface $em
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, EventManager $events)
     {
         $this->em = $em;
+
+        $this->setEventManager($events);
     }
 
     /**
@@ -171,8 +196,12 @@ abstract class AbstractProvider implements ProviderInterface
      */
     public function save(EntityInterface $entity)
     {
+        $entity = $this->beforeSave($entity);
+
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush($entity);
+
+        $this->afterSave($entity);
     }
 
     /**
@@ -194,8 +223,25 @@ abstract class AbstractProvider implements ProviderInterface
     public function delete($id)
     {
         $entity = $this->findById($id);
+        $entity = $this->beforeDelete($entity);
+
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
+
+        $this->afterDelete($entity);
+    }
+
+    /**
+     * Returns the EventManager
+     *
+     * @return EventManagerInterface
+     */
+    public function getEventManager(): EventManagerInterface
+    {
+        if (null === $this->events) {
+            $this->setEventManager(new EventManager());
+        }
+        return $this->events;
     }
 
     /**
@@ -279,5 +325,90 @@ abstract class AbstractProvider implements ProviderInterface
     protected function getEntityManager()
     {
         return $this->em;
+    }
+
+    /**
+     * Sets the EventManager
+     *
+     * @param EventManagerInterface $events
+     * @return self
+     */
+    protected function setEventManager(EventManagerInterface $events): self
+    {
+        $events->setIdentifiers([__CLASS__, get_called_class()]);
+        $this->events = $events;
+        return $this;
+    }
+
+    /**
+     * Events to fire before an Entity is saved
+     *
+     * @param EntityInterface $entity
+     * @return void
+     */
+    protected function beforeSave(EntityInterface $entity): EntityInterface
+    {
+        $argv = compact('entity');
+        $argv = $this->getEventManager()->prepareArgs($argv);
+
+        $this->getEventManager()->trigger("{$this->event_prefix}_save_before", $this, $argv);
+        if ($this->entity_event_prefix) {
+            $this->getEventManager()->trigger("{$this->entity_event_prefix}_save_before", $this, $argv);
+        }
+
+        return $argv['entity'];
+    }
+
+    /**
+     * Events to fire after an Entity is saved
+     *
+     * @param EntityInterface $entity
+     * @return void
+     */
+    protected function afterSave(EntityInterface $entity): void
+    {
+        $argv = compact('entity');
+        $argv = $this->getEventManager()->prepareArgs($argv);
+
+        $this->getEventManager()->trigger("{$this->event_prefix}_save_after", $this, $argv);
+        if ($this->entity_event_prefix) {
+            $this->getEventManager()->trigger("{$this->entity_event_prefix}_save_after", $this, $argv);
+        }
+    }
+
+    /**
+     * Events to fire before an Entity is deleted
+     *
+     * @param EntityInterface $entity
+     * @return void
+     */
+    protected function beforeDelete(EntityInterface $entity): EntityInterface
+    {
+        $argv = compact('entity');
+        $argv = $this->getEventManager()->prepareArgs($argv);
+
+        $this->getEventManager()->trigger("{$this->event_prefix}_delete_before", $this, $argv);
+        if ($this->entity_event_prefix) {
+            $this->getEventManager()->trigger("{$this->entity_event_prefix}_delete_before", $this, $argv);
+        }
+
+        return $argv['entity'];
+    }
+
+    /**
+     * Events to fire after an Entity is deleted
+     *
+     * @param EntityInterface $entity
+     * @return void
+     */
+    protected function afterDelete(EntityInterface $entity): void
+    {
+        $argv = compact('entity');
+        $argv = $this->getEventManager()->prepareArgs($argv);
+
+        $this->getEventManager()->trigger("{$this->event_prefix}_delete_after", $this, $argv);
+        if ($this->entity_event_prefix) {
+            $this->getEventManager()->trigger("{$this->entity_event_prefix}_delete_after", $this, $argv);
+        }
     }
 }
