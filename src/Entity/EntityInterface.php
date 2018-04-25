@@ -3,7 +3,7 @@
 /**
  * Description of EntityInterface
  *
- * @author: Awoyo Oluwatoyin Stephen alias talk2toyin / muscle53 <awoyotoyin@gmail.com>
+ * @author: Awoyo Oluwatoyin Stephen alias awoyotoyin <awoyotoyin@gmail.com>
  */
 namespace Zfe\Common\Entity;
 

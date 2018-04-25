@@ -3,7 +3,7 @@
 /**
  * Description of ServiceInterface
  *
- * @author: Awoyo Oluwatoyin Stephen alias AwoyoToyin <awoyotoyin@gmail.com>
+ * @author: Awoyo Oluwatoyin Stephen alias awoyotoyin <awoyotoyin@gmail.com>
  */
 namespace Zfe\Common\Service;
 
