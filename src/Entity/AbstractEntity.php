@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Description of AbstractEntity
+ *
+ * @author: Awoyo Oluwatoyin Stephen alias awoyotoyin <awoyotoyin@gmail.com>
+ */
 namespace Zfe\Common\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -20,7 +25,7 @@ abstract class AbstractEntity implements EntityInterface
     protected $createdAt;
 
     /**
-     * @ORM\Column(name="updated_at", type="datetime")
+     * @ORM\Column(name="updated_at", nullable=true, type="datetime")
      */
     protected $updatedAt;
 
@@ -51,7 +56,7 @@ abstract class AbstractEntity implements EntityInterface
      *
      * @return datetime
      */
-    public function getCreatedAt(): datetime
+    public function getCreatedAt(): ?datetime
     {
         return $this->createdAt;
     }
@@ -73,7 +78,7 @@ abstract class AbstractEntity implements EntityInterface
      *
      * @return datetime
      */
-    public function getUpdatedAt(): datetime
+    public function getUpdatedAt(): ?datetime
     {
         return $this->updatedAt;
     }
